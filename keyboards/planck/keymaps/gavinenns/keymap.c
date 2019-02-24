@@ -89,10 +89,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [_MEDIA] = LAYOUT_planck_grid(
-    MU_OFF,  KC_MPRV,    KC_MPLY,    KC_MNXT,    _______,    _______,    _______,    KC_EJCT,    KC_MUTE,    KC_VOLD,    KC_VOLU,    MU_ON,
-    _______,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   _______,   _______,   KC_F5,   KC_F6,  KC_F7,   KC_F8, _______,
-    _______, KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______,  _______,  KC_F13,   KC_F14,  KC_F15,  KC_F16, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    _______,  KC_MPRV,    KC_MPLY,    KC_MNXT,    _______,    _______,    _______,    KC_EJCT,    KC_MUTE,    KC_VOLD,    KC_VOLU,    _______,
+    _______,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   _______,   _______,   KC_F5,   KC_F6,  KC_F7,   KC_F8, MUV_IN,
+    CK_TOGG, KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______,  _______,  KC_F13,   KC_F14,  KC_F15,  KC_F16, MUV_DE,
+    MU_TOG, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, MU_MOD
 ),
 
 
@@ -108,9 +108,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_ADJUST] = LAYOUT_planck_grid(
-    _______, RESET,   DEBUG,   RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD,  RGB_VAI, RGB_VAD, KC_DEL ,
-    _______, _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, _______, _______,  _______, _______, _______,
-    _______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  TERM_ON, TERM_OFF, _______, _______, _______,
+    _______, RESET,   DEBUG,   _______, _______, _______, _______, _______, _______,  _______, _______, _______ ,
+    _______, _______, _______,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, _______, _______,  _______, _______, _______,
+    _______, _______,  _______,  _______,   _______,  MI_ON,   MI_OFF,  TERM_ON, TERM_OFF, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
 )
 

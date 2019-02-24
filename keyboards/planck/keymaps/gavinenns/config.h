@@ -9,7 +9,8 @@
                                   SONG(DVORAK_SOUND) \
                                 }
 #endif
-
+#define AUDIO_CLICKY
+#define AUDIO_VOICES
 /*
  * MIDI options
  */
