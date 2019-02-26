@@ -56,15 +56,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_LOWER] = LAYOUT_planck_grid(
     KC_TILD, KC_EXLM,     KC_AT,   KC_HASH,  KC_DLR,   KC_PERC,   KC_CIRC,   KC_AMPR,    KC_ASTR,    KC_MINS,  KC_EQL, KC_DEL,
-    _______, _______,   _______,   KC_LCBR, KC_RCBR,   _______,   _______,   _______,    KC_LPRN,    KC_RPRN, KC_PIPE, KC_BSLS,
-    _______, _______,   _______,   KC_LBRC, KC_RBRC,   _______,   _______,   _______,    _______,    _______, KC_PGUP, _______,
+    _______, _______,   _______,   KC_LCBR, KC_RCBR,   _______,   _______,   KC_LPRN,    KC_RPRN,    KC_UNDS, KC_PIPE, KC_BSLS,
+    _______, _______,   _______,   KC_LBRC, KC_RBRC,   _______,   _______,   KC_LABK,    KC_RABK,    _______, KC_PGUP, _______,
     _______, _______,   _______,   _______, _______,   _______,   _______,   _______,    _______,    KC_HOME, KC_PGDN, KC_END
 ),
 
 //  KC_NUHS, KC_NUBS    S(KC_NUHS), S(KC_NUBS)
 [_RAISE] = LAYOUT_planck_grid(
     KC_GRV,     KC_1,      KC_2,      KC_3,      KC_4,      KC_5,      KC_6,     KC_P7,    KC_P8,    KC_P9,    KC_0, KC_BSPC,
-    _______, _______,   _______,   _______,   _______,   KC_PSLS,   KC_PAST,     KC_P4,    KC_P5,    KC_P6, KC_QUES, KC_SLSH,
+    _______, _______,   _______,   _______,   _______,   KC_PSLS,   KC_PAST,     KC_P4,    KC_P5,    KC_P6, KC_PLUS, KC_SLSH,
     _______, _______,   _______,   _______,   _______,   KC_PMNS,   KC_PPLS,     KC_P1,    KC_P2,    KC_P3, KC_PEQL, KC_PENT,
     _______, _______,   _______,   _______,   _______,   _______,   _______,   _______,    KC_P0,  KC_PDOT, _______, KC_NLCK
 ),
