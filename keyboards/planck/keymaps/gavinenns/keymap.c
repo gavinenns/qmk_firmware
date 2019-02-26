@@ -21,6 +21,7 @@ extern keymap_config_t keymap_config;
 
 enum planck_layers {
   _QWERTY,
+  _SHIFT,
   _LOWER,
   _RAISE,
   _MEDIA,
@@ -33,14 +34,25 @@ enum planck_layers {
 #define MED_ESC LT(_MEDIA, KC_ESC)
 #define MED_BSP LT(_MEDIA, KC_BSPC)
 #define SUPER LCTL(LALT(KC_LGUI))
+#define SFT_L LM(_SHIFT, MOD_LSFT)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_QWERTY] = LAYOUT_planck_grid(
-    MED_ESC, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,   MED_BSP,
-    KC_TAB,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN,   KC_QUOT,
-    KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M, KC_COMM,  KC_DOT,   KC_UP,   KC_RSFT,
-    SUPER,   KC_LCTL, KC_LALT, KC_LGUI, LOWER,  LOWER,   RAISE,   RAISE,  KC_ENT, KC_LEFT, KC_DOWN,   KC_RGHT ),
+    MED_ESC, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,       KC_P,   MED_BSP,
+    KC_TAB,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,   KC_QUOT,
+    SFT_L,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,    KC_UP,   SFT_L,
+    SUPER,   KC_LCTL, KC_LALT, KC_LGUI, LOWER, LOWER, RAISE, RAISE, KC_ENT, KC_LEFT, KC_DOWN,   KC_RGHT
+),
+
+
+[_SHIFT] = LAYOUT_planck_grid(
+  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
+  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
+  _______, _______, _______, _______, _______, _______, _______, _______, KC_EXLM,  KC_QUES, _______, _______,
+  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
+),
+
 
 [_LOWER] = LAYOUT_planck_grid(
     KC_TILD, KC_EXLM,     KC_AT,   KC_HASH,  KC_DLR,   KC_PERC,   KC_CIRC,   KC_AMPR,    KC_ASTR,    KC_MINS,  KC_EQL, KC_DEL,
