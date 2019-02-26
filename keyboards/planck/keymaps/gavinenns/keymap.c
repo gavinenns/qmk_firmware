@@ -21,7 +21,6 @@ extern keymap_config_t keymap_config;
 
 enum planck_layers {
   _QWERTY,
-  _SHIFT,
   _LOWER,
   _RAISE,
   _MEDIA,
@@ -29,31 +28,26 @@ enum planck_layers {
   _GAME
 };
 
+enum custom_keycodes {
+    KC_DTQS = SAFE_RANGE,
+    KC_CMEX
+};
+
+
 #define LOWER LT(_LOWER, KC_SPC)
 #define RAISE LT(_RAISE, KC_SPC)
 #define MED_ESC LT(_MEDIA, KC_ESC)
 #define MED_BSP LT(_MEDIA, KC_BSPC)
 #define SUPER LCTL(LALT(KC_LGUI))
-#define SFT_L LM(_SHIFT, MOD_LSFT)
-#define GUI_ENT RGUI_T(KC_ENT)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_QWERTY] = LAYOUT_planck_grid(
     MED_ESC, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,       KC_P,   MED_BSP,
     KC_TAB,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,   KC_QUOT,
-    SFT_L,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,    KC_UP,   SFT_L,
-    SUPER,   KC_LCTL, KC_LALT, KC_LGUI, LOWER, LOWER, RAISE, RAISE, GUI_ENT, KC_LEFT, KC_DOWN,   KC_RGHT
+    KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_CMEX, KC_DTQS,    KC_UP,   KC_SFTENT,
+    SUPER,   KC_LCTL, KC_LALT, KC_LGUI, LOWER,  LOWER,   RAISE,   RAISE,    KC_RGUI, KC_LEFT, KC_DOWN,   KC_RGHT
 ),
-
-
-[_SHIFT] = LAYOUT_planck_grid(
-  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, KC_EXLM,  KC_QUES, _______, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
-),
-
 
 [_LOWER] = LAYOUT_planck_grid(
     KC_TILD, KC_EXLM,     KC_AT,   KC_HASH,  KC_DLR,   KC_PERC,   KC_CIRC,   KC_AMPR,    KC_ASTR,    KC_MINS,  KC_EQL, KC_DEL,
@@ -93,6 +87,40 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 )
 
 };
+
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case KC_DTQS:
+      if (record->event.pressed){
+        if (keyboard_report->mods & MOD_BIT(KC_LSFT) || keyboard_report->mods & MOD_BIT(KC_RSFT)){
+          register_code(KC_SLSH);
+        } else {
+          register_code(KC_DOT);
+        }
+      } else {
+        unregister_code(KC_SLSH);
+        unregister_code(KC_DOT);
+      }
+      return false;
+    case KC_CMEX:
+      if (record->event.pressed){
+        if (keyboard_report->mods & MOD_BIT(KC_LSFT) || keyboard_report->mods & MOD_BIT(KC_RSFT)){
+          register_code(KC_1);
+        } else {
+          register_code(KC_COMM);
+        }
+      } else {
+        unregister_code(KC_1);
+        unregister_code(KC_COMM);
+      }
+      return false;
+    default:
+      return true;
+  }
+}
+
+
 
 #ifdef AUDIO_ENABLE
   float plover_song[][2]     = SONG(PLOVER_SOUND);
