@@ -31,7 +31,7 @@ enum planck_layers {
 
 #define LOWER LT(_LOWER, KC_SPC)
 #define RAISE LT(_RAISE, KC_SPC)
-#define MED_ESC LT(_MEDIA, KC_GESC)
+#define MED_ESC LT(_MEDIA, KC_ESC)
 #define MED_BSP LT(_MEDIA, KC_BSPC)
 #define SUPER LCTL(LALT(KC_LGUI))
 #define SFT_L LM(_SHIFT, MOD_LSFT)
