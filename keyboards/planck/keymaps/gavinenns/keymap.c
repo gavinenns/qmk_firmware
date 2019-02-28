@@ -26,7 +26,8 @@ enum planck_layers {
   _RAISE,
   _MEDIA,
   _ADJUST,
-  _GAME
+  _GAME,
+  _SUPER
 };
 
 enum custom_keycodes {
@@ -39,11 +40,15 @@ enum custom_keycodes {
 #define RAISE LT(_RAISE, KC_SPC)
 #define MED_ESC LT(_MEDIA, KC_ESC)
 #define MED_BSP LT(_MEDIA, KC_BSPC)
-#define SUPER LCTL(LALT(KC_LGUI))
+#define SUPER MO(_SUPER)
 #define GUI_P0 RGUI_T(KC_P0)
 #define LSFT_L MO(_SHIFT)
 #define RS_ENT LT(_SHIFT, KC_ENT)
 #define RS_PENT LT(_SHIFT, KC_PENT)
+#define SFTIT_L LCTL(LALT(LGUI(KC_LEFT)))
+#define SFTIT_R LCTL(LALT(LGUI(KC_RIGHT)))
+#define SFTIT_U LCTL(LALT(LGUI(KC_UP)))
+#define SFTIT_D LCTL(LALT(LGUI(KC_DOWN)))
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -95,6 +100,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, KC_ENT,
   _______, _______, _______, _______,  KC_SPC,  KC_SPC, _______, _______, _______,  _______, _______, _______
+),
+
+[_SUPER] = LAYOUT_planck_grid(
+  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
+  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
+  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, SFTIT_U, _______,
+  _______, _______, _______, _______, _______, _______, _______, _______, _______,  SFTIT_L, SFTIT_D, SFTIT_R
 )
 
 };
