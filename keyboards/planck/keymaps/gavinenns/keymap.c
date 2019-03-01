@@ -106,7 +106,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case KC_DTQS:
       if (record->event.pressed){
-        if (keyboard_report->mods & MOD_BIT(KC_LSFT) || keyboard_report->mods & MOD_BIT(KC_RSFT)){
+        if (get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT)){
           register_code(KC_SLSH);
         } else {
           register_code(KC_DOT);
@@ -118,7 +118,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
     case KC_CMEX:
       if (record->event.pressed){
-        if (keyboard_report->mods & MOD_BIT(KC_LSFT) || keyboard_report->mods & MOD_BIT(KC_RSFT)){
+        if (get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT)){
           register_code(KC_1);
         } else {
           register_code(KC_COMM);
