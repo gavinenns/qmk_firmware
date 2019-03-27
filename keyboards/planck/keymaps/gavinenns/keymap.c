@@ -41,12 +41,18 @@ enum custom_keycodes {
 #define MED_BSP LT(_MEDIA, KC_BSPC)
 #define SUPER MO(_SUPER)
 #define GUI_P0 RGUI_T(KC_P0)
+#define RS_PENT RSFT_T(KC_PENT)
+
 #define SFTIT_L LCTL(LALT(LGUI(KC_LEFT)))
 #define SFTIT_R LCTL(LALT(LGUI(KC_RIGHT)))
 #define SFTIT_U LCTL(LALT(LGUI(KC_UP)))
 #define SFTIT_D LCTL(LALT(LGUI(KC_DOWN)))
 #define SFTIT_M LCTL(LALT(LGUI(KC_M)))
-#define RS_PENT RSFT_T(KC_PENT)
+#define SFTIT_N LCTL(LALT(LGUI(KC_N)))
+#define SFTIT_1 LCTL(LALT(LGUI(KC_1)))
+#define SFTIT_2 LCTL(LALT(LGUI(KC_2)))
+#define SFTIT_3 LCTL(LALT(LGUI(KC_3)))
+#define SFTIT_4 LCTL(LALT(LGUI(KC_4)))
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -94,9 +100,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [_SUPER] = LAYOUT_planck_grid(
+  _______, SFTIT_1, SFTIT_2, SFTIT_3, SFTIT_4, _______, _______, _______, _______,  _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, _______, SFTIT_M, _______,  _______, SFTIT_U, _______,
+  _______, _______, _______, _______, _______, _______, SFTIT_N, SFTIT_M, _______,  _______, SFTIT_U, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______,  SFTIT_L, SFTIT_D, SFTIT_R
 )
 
