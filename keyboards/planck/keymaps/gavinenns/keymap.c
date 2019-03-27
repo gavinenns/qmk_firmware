@@ -45,6 +45,7 @@ enum custom_keycodes {
 #define SFTIT_R LCTL(LALT(LGUI(KC_RIGHT)))
 #define SFTIT_U LCTL(LALT(LGUI(KC_UP)))
 #define SFTIT_D LCTL(LALT(LGUI(KC_DOWN)))
+#define SFTIT_M LCTL(LALT(LGUI(KC_M)))
 #define RS_PENT RSFT_T(KC_PENT)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -95,7 +96,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_SUPER] = LAYOUT_planck_grid(
   _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, SFTIT_U, _______,
+  _______, _______, _______, _______, _______, _______, _______, SFTIT_M, _______,  _______, SFTIT_U, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______,  SFTIT_L, SFTIT_D, SFTIT_R
 )
 
