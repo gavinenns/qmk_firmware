@@ -42,6 +42,7 @@ enum custom_keycodes {
 #define SUPER MO(_SUPER)
 #define GUI_P0 RGUI_T(KC_P0)
 #define RS_PENT RSFT_T(KC_PENT)
+#define GAME TG(_GAME)
 
 #define SFTIT_L LCTL(LALT(LGUI(KC_LEFT)))
 #define SFTIT_R LCTL(LALT(LGUI(KC_RIGHT)))
@@ -78,18 +79,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [_MEDIA] = LAYOUT_planck_grid(
-    _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, _______, KC_EJCT, KC_MUTE, KC_VOLD, KC_VOLU, _______,
-   TG(_GAME),  KC_F1,   KC_F2,   KC_F3,   KC_F4, _______, _______,   KC_F5,   KC_F6,   KC_F7,   KC_F8, MUV_IN,
-    CK_TOGG,   KC_F9,  KC_F10,  KC_F11,  KC_F12, _______, _______,  KC_F13,  KC_F14,  KC_F15,  KC_F16, MUV_DE,
-     MU_TOG, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, MU_MOD
+  _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, _______, KC_EJCT, KC_MUTE, KC_VOLD, KC_VOLU, _______,
+  _______,   KC_F1,   KC_F2,   KC_F3,   KC_F4, _______, _______,   KC_F5,   KC_F6,   KC_F7,   KC_F8, _______,
+  _______,   KC_F9,  KC_F10,  KC_F11,  KC_F12, _______, _______,  KC_F13,  KC_F14,  KC_F15,  KC_F16, _______,
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 ),
 
 
 [_ADJUST] = LAYOUT_planck_grid(
-    _______,   RESET,   DEBUG, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
-    _______, _______, _______,   AU_ON,  AU_OFF, AG_NORM, AG_SWAP, _______, _______,  _______, _______, _______,
-    _______, _______, _______, _______, _______,   MI_ON,  MI_OFF, TERM_ON, TERM_OFF, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
+  _______, RESET,   DEBUG, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
+  GAME,    _______, _______,   AU_ON,  AU_OFF, AG_NORM, AG_SWAP, _______, _______,  _______, _______, MUV_IN,
+  CK_TOGG, _______, _______, _______, _______,   MI_ON,  MI_OFF, TERM_ON, TERM_OFF, _______, _______, MUV_DE,
+  MU_TOG,  _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, MU_MOD
 ),
 
 [_GAME] = LAYOUT_planck_grid(
