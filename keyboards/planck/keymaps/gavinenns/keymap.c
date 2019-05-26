@@ -19,6 +19,45 @@
 
 extern keymap_config_t keymap_config;
 
+
+#define ZELDA_NOTES  \
+    Q__NOTE(_G6 ),     \
+    Q__NOTE(_FS6),     \
+    Q__NOTE(_DS6),     \
+    Q__NOTE(_A5 ),     \
+    Q__NOTE(_GS5),     \
+    Q__NOTE(_E6 ),     \
+    Q__NOTE(_GS6),     \
+    QD_NOTE(_C7 )
+float zelda_song[][2] = SONG(ZELDA_NOTES);
+
+#define BLOOP_NOTES \
+  S__NOTE(_C6), \
+  S__NOTE(_CS6), \
+  E__NOTE(_D6)
+float bloop_song[][2] = SONG(BLOOP_NOTES);
+
+#define MARIO_NOTES \
+  Q__NOTE(_B6), \
+  Q__NOTE(_F7), \
+  Q__NOTE(_REST), \
+  Q__NOTE(_F7), \
+  S__NOTE(_REST), \
+  H__NOTE(_F7), \
+  E__NOTE(_REST), \
+  H__NOTE(_E7), \
+  E__NOTE(_REST), \
+  H__NOTE(_D7), \
+  E__NOTE(_REST), \
+  Q__NOTE(_G6), \
+  Q__NOTE(_E6), \
+  S__NOTE(_REST), \
+  E__NOTE(_G5), \
+  S__NOTE(_REST), \
+  Q__NOTE(_E6), \
+  QD_NOTE(_C6)
+float mario_song[][2] = SONG(MARIO_NOTES);
+
 enum planck_layers {
   _QWERTY,
   _LOWER,
@@ -31,7 +70,9 @@ enum planck_layers {
 
 enum custom_keycodes {
     KC_DTQS = SAFE_RANGE,
-    KC_CMEX
+    KC_CMEX,
+    G_START,
+    G_EXIT
 };
 
 
@@ -42,7 +83,6 @@ enum custom_keycodes {
 #define SUPER MO(_SUPER)
 #define GUI_P0 RGUI_T(KC_P0)
 #define RS_PENT RSFT_T(KC_PENT)
-#define GAME TG(_GAME)
 
 #define SFTIT_L LCTL(LALT(LGUI(KC_LEFT)))
 #define SFTIT_R LCTL(LALT(LGUI(KC_RIGHT)))
@@ -80,24 +120,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_MEDIA] = LAYOUT_planck_grid(
   _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, _______, KC_EJCT, KC_MUTE, KC_VOLD, KC_VOLU, _______,
-  _______,   KC_F1,   KC_F2,   KC_F3,   KC_F4, _______, _______,   KC_F5,   KC_F6,   KC_F7,   KC_F8, _______,
-  _______,   KC_F9,  KC_F10,  KC_F11,  KC_F12, _______, _______,  KC_F13,  KC_F14,  KC_F15,  KC_F16, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+  G_START,   KC_F1,   KC_F2,   KC_F3,   KC_F4, _______, _______,   KC_F5,   KC_F6,   KC_F7,   KC_F8, _______,
+  CK_TOGG,   KC_F9,  KC_F10,  KC_F11,  KC_F12, _______, _______,  KC_F13,  KC_F14,  KC_F15,  KC_F16, _______,
+  MU_TOG,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 ),
 
 
 [_ADJUST] = LAYOUT_planck_grid(
   _______, RESET,   DEBUG, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
-  GAME,    _______, _______,   AU_ON,  AU_OFF, AG_NORM, AG_SWAP, _______, _______,  _______, _______, MUV_IN,
-  CK_TOGG, _______, _______, _______, _______,   MI_ON,  MI_OFF, TERM_ON, TERM_OFF, _______, _______, MUV_DE,
-  MU_TOG,  _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, MU_MOD
+  _______, _______, _______,   AU_ON,  AU_OFF, AG_NORM, AG_SWAP, _______, _______,  _______, _______, MUV_IN,
+  _______, _______, _______, _______, _______,   MI_ON,  MI_OFF, TERM_ON, TERM_OFF, _______, _______, MUV_DE,
+  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, MU_MOD
 ),
 
 [_GAME] = LAYOUT_planck_grid(
   KC_ESC, _______, _______, _______,  _______, _______, _______, _______, _______,  _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, KC_ENT,
-  _______, _______, _______, _______,  KC_SPC,  KC_SPC, _______, _______, _______,  _______, _______, _______
+  _______, _______, _______, _______,  KC_SPC,  KC_SPC, MO(_RAISE), MO(_RAISE), G_EXIT,   _______, _______, _______
 ),
 
 [_SUPER] = LAYOUT_planck_grid(
@@ -108,6 +148,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 )
 
 };
+
+uint16_t g_exit_timer;
+bool g_exit_pressed = false;
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -134,6 +177,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       } else {
         unregister_code(KC_1);
         unregister_code(KC_COMM);
+      }
+      return false;
+    case G_START:
+      if (record->event.pressed){
+        PLAY_SONG(zelda_song);
+        layer_on(_GAME);
+      }
+      return false;
+    case G_EXIT:
+      if (record->event.pressed){
+        PLAY_SONG(bloop_song);
+        g_exit_timer = timer_read();
+        g_exit_pressed = true;
+      } else {
+        g_exit_pressed = false;
       }
       return false;
     default:
@@ -233,6 +291,10 @@ void matrix_scan_user(void) {
         }
       }
       muse_counter = (muse_counter + 1) % muse_tempo;
+    } else if ( g_exit_pressed && timer_elapsed(g_exit_timer) > 500 ) {
+      g_exit_pressed = false;
+      PLAY_SONG(mario_song);
+      layer_off(_GAME);
     }
   #endif
 }
