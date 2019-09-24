@@ -94,6 +94,7 @@ enum custom_keycodes {
 #define SFTIT_2 LCTL(LALT(LGUI(KC_2)))
 #define SFTIT_3 LCTL(LALT(LGUI(KC_3)))
 #define SFTIT_4 LCTL(LALT(LGUI(KC_4)))
+#define CMD_TLD LGUI(KC_GRV)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -141,7 +142,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [_SUPER] = LAYOUT_planck_grid(
-  _______, SFTIT_1, SFTIT_2, SFTIT_3, SFTIT_4, _______, _______, _______, _______,  _______, _______, _______,
+  CMD_TLD, SFTIT_1, SFTIT_2, SFTIT_3, SFTIT_4, _______, _______, _______, _______,  _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
   _______, _______, _______, _______, _______, _______, SFTIT_N, SFTIT_M, _______,  _______, SFTIT_U, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______,  SFTIT_L, SFTIT_D, SFTIT_R
