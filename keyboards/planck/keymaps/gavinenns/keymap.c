@@ -84,16 +84,8 @@ enum custom_keycodes {
 #define GUI_P0 RGUI_T(KC_P0)
 #define RS_PENT RSFT_T(KC_PENT)
 
-#define SFTIT_L LCTL(LALT(LGUI(KC_LEFT)))
-#define SFTIT_R LCTL(LALT(LGUI(KC_RIGHT)))
-#define SFTIT_U LCTL(LALT(LGUI(KC_UP)))
-#define SFTIT_D LCTL(LALT(LGUI(KC_DOWN)))
-#define SFTIT_M LCTL(LALT(LGUI(KC_M)))
-#define SFTIT_N LCTL(LALT(LGUI(KC_N)))
-#define SFTIT_1 LCTL(LALT(LGUI(KC_1)))
-#define SFTIT_2 LCTL(LALT(LGUI(KC_2)))
-#define SFTIT_3 LCTL(LALT(LGUI(KC_3)))
-#define SFTIT_4 LCTL(LALT(LGUI(KC_4)))
+#define S_(x) LCTL(LALT(LGUI(x)))
+
 #define CMD_TLD LGUI(KC_GRV)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -128,24 +120,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 [_ADJUST] = LAYOUT_planck_grid(
-  _______, RESET,   DEBUG, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
+  _______, RESET,     DEBUG, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
   _______, _______, _______,   AU_ON,  AU_OFF, AG_NORM, AG_SWAP, _______, _______,  _______, _______, MUV_IN,
   _______, _______, _______, _______, _______,   MI_ON,  MI_OFF, TERM_ON, TERM_OFF, _______, _______, MUV_DE,
   _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, MU_MOD
 ),
 
 [_GAME] = LAYOUT_planck_grid(
-  KC_ESC, _______, _______, _______,  _______, _______, _______, _______, _______,  _______, _______, _______,
+  KC_ESC,  _______, _______, _______,  _______, _______, _______, _______, _______,  _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, KC_ENT,
   _______, _______, _______, _______,  KC_SPC,  KC_SPC, MO(_RAISE), MO(_RAISE), G_EXIT,   _______, _______, _______
 ),
 
 [_SUPER] = LAYOUT_planck_grid(
-  CMD_TLD, SFTIT_1, SFTIT_2, SFTIT_3, SFTIT_4, _______, _______, _______, _______,  _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, SFTIT_N, SFTIT_M, _______,  _______, SFTIT_U, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______,  SFTIT_L, SFTIT_D, SFTIT_R
+  CMD_TLD, S_(KC_1), S_(KC_2), S_(KC_3), S_(KC_4), _______, _______, _______, _______,  S_(KC_MINS), S_(KC_EQL), _______,
+  _______, _______, _______, _______, S_(KC_F), _______, _______, _______, _______,  _______, _______, _______,
+  _______, _______, _______, S_(KC_C), _______, _______, S_(KC_N), S_(KC_M), _______,  _______, S_(KC_UP), _______,
+  _______, _______, _______, _______, _______, _______, _______, _______, _______,  S_(KC_LEFT), S_(KC_DOWN), S_(KC_RIGHT)
 )
 
 };
