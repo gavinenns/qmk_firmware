@@ -87,6 +87,8 @@ enum custom_keycodes {
 #define S_(x) LCTL(LALT(LGUI(x)))
 
 #define CMD_TLD LGUI(KC_GRV)
+#define CMD_TAB LCTL(KC_TAB)
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -135,7 +137,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_SUPER] = LAYOUT_planck_grid(
   CMD_TLD, S_(KC_1), S_(KC_2), S_(KC_3), S_(KC_4), _______, _______, _______, _______,  S_(KC_MINS), S_(KC_EQL), _______,
-  _______, _______, _______, _______, S_(KC_F), _______, _______, _______, _______,  _______, _______, _______,
+  CMD_TAB, _______, _______, _______, S_(KC_F), _______, _______, _______, _______,  _______, _______, _______,
   _______, _______, _______, S_(KC_C), _______, _______, S_(KC_N), S_(KC_M), _______,  _______, S_(KC_UP), _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______,  S_(KC_LEFT), S_(KC_DOWN), S_(KC_RIGHT)
 )
