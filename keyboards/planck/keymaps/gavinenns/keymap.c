@@ -20,39 +20,39 @@ extern keymap_config_t keymap_config;
 
 
 #define ZELDA_NOTES  \
-    Q__NOTE(_G6 ),     \
-    Q__NOTE(_FS6),     \
-    Q__NOTE(_DS6),     \
-    Q__NOTE(_A5 ),     \
-    Q__NOTE(_GS5),     \
-    Q__NOTE(_E6 ),     \
-    Q__NOTE(_GS6),     \
-    QD_NOTE(_C7 )
+    H__NOTE(_G5 ),     \
+    H__NOTE(_FS5),     \
+    H__NOTE(_DS5),     \
+    H__NOTE(_A4 ),     \
+    H__NOTE(_GS4),     \
+    H__NOTE(_E5 ),     \
+    H__NOTE(_GS5),     \
+    HD_NOTE(_C6 )
 
 #define BLOOP_NOTES \
-  S__NOTE(_C6), \
-  S__NOTE(_CS6), \
-  E__NOTE(_D6)
+  E__NOTE(_C5), \
+  E__NOTE(_CS5), \
+  Q__NOTE(_D5)
 
 #define MARIO_NOTES \
-  Q__NOTE(_B6), \
-  Q__NOTE(_F7), \
+  H__NOTE(_B5), \
+  H__NOTE(_F6), \
+  H__NOTE(_REST), \
+  H__NOTE(_F6), \
+  E__NOTE(_REST), \
+  W__NOTE(_F6), \
   Q__NOTE(_REST), \
-  Q__NOTE(_F7), \
-  S__NOTE(_REST), \
-  H__NOTE(_F7), \
+  W__NOTE(_E6), \
+  Q__NOTE(_REST), \
+  W__NOTE(_D6), \
+  Q__NOTE(_REST), \
+  H__NOTE(_G5), \
+  H__NOTE(_E5), \
   E__NOTE(_REST), \
-  H__NOTE(_E7), \
+  Q__NOTE(_G4), \
   E__NOTE(_REST), \
-  H__NOTE(_D7), \
-  E__NOTE(_REST), \
-  Q__NOTE(_G6), \
-  Q__NOTE(_E6), \
-  S__NOTE(_REST), \
-  E__NOTE(_G5), \
-  S__NOTE(_REST), \
-  Q__NOTE(_E6), \
-  QD_NOTE(_C6)
+  H__NOTE(_E5), \
+  HD_NOTE(_C5)
 
 #ifdef AUDIO_ENABLE
   float zelda_song[][2] = SONG(ZELDA_NOTES);
