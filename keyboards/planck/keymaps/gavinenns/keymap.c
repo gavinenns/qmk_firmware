@@ -15,7 +15,6 @@
  */
 
 #include QMK_KEYBOARD_H
-#include "muse.h"
 
 extern keymap_config_t keymap_config;
 
@@ -29,13 +28,11 @@ extern keymap_config_t keymap_config;
     Q__NOTE(_E6 ),     \
     Q__NOTE(_GS6),     \
     QD_NOTE(_C7 )
-float zelda_song[][2] = SONG(ZELDA_NOTES);
 
 #define BLOOP_NOTES \
   S__NOTE(_C6), \
   S__NOTE(_CS6), \
   E__NOTE(_D6)
-float bloop_song[][2] = SONG(BLOOP_NOTES);
 
 #define MARIO_NOTES \
   Q__NOTE(_B6), \
@@ -56,7 +53,13 @@ float bloop_song[][2] = SONG(BLOOP_NOTES);
   S__NOTE(_REST), \
   Q__NOTE(_E6), \
   QD_NOTE(_C6)
-float mario_song[][2] = SONG(MARIO_NOTES);
+
+#ifdef AUDIO_ENABLE
+  float zelda_song[][2] = SONG(ZELDA_NOTES);
+  float bloop_song[][2] = SONG(BLOOP_NOTES);
+  float mario_song[][2] = SONG(MARIO_NOTES);
+#endif
+
 
 enum planck_layers {
   _QWERTY,
@@ -119,22 +122,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, _______, KC_EJCT, KC_MUTE, KC_VOLD, KC_VOLU, _______,
   G_START,   KC_F1,   KC_F2,   KC_F3,   KC_F4, _______, _______,   KC_F5,   KC_F6,   KC_F7,   KC_F8, _______,
   CK_TOGG,   KC_F9,  KC_F10,  KC_F11,  KC_F12, _______, _______,  KC_F13,  KC_F14,  KC_F15,  KC_F16, _______,
-  MU_TOG,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+  _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 ),
 
 
 [_ADJUST] = LAYOUT_planck_grid(
   _______, RESET,     DEBUG, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
-  _______, _______, _______,   AU_ON,  AU_OFF, AG_NORM, AG_SWAP, _______, _______,  _______, _______, MUV_IN,
-  _______, _______, _______, _______, _______,   MI_ON,  MI_OFF, TERM_ON, TERM_OFF, _______, _______, MUV_DE,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, MU_MOD
-),
-
-[_GAME] = LAYOUT_planck_grid(
-  KC_ESC,  _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, KC_ENT,
-  _______, _______, _______, _______,  KC_SPC,  KC_SPC, GM_RAIS, GM_RAIS, G_EXIT,   _______, _______, _______
+  _______, _______, _______,   AU_ON,  AU_OFF, AG_NORM, AG_SWAP, _______, _______,  _______, _______, _______,
+  _______, _______, _______, _______, _______,   MI_ON,  MI_OFF, TERM_ON, TERM_OFF, _______, _______, _______,
+  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
 ),
 
 [_SUPER] = LAYOUT_planck_grid(
@@ -142,6 +138,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   CMD_TAB, _______, _______, _______, S_(KC_F), _______, _______, _______, _______,  _______, _______, _______,
   _______, _______, _______, S_(KC_C), _______, _______, S_(KC_N), S_(KC_M), _______,  _______, S_(KC_UP), _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______,  S_(KC_LEFT), S_(KC_DOWN), S_(KC_RIGHT)
+),
+
+[_GAME] = LAYOUT_planck_grid(
+  KC_ESC,  _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
+  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
+  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, KC_ENT,
+  _______, _______, _______, _______,  KC_SPC,  KC_SPC, GM_RAIS, GM_RAIS, G_EXIT,   _______, _______, _______
 ),
 
 [_GMRAIS] = LAYOUT_planck_grid(
@@ -185,13 +188,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
     case G_START:
       if (record->event.pressed){
-        PLAY_SONG(zelda_song);
+        #ifdef AUDIO_ENABLE
+          PLAY_SONG(zelda_song);
+        #endif
         layer_on(_GAME);
       }
       return false;
     case G_EXIT:
       if (record->event.pressed){
-        PLAY_SONG(bloop_song);
+        #ifdef AUDIO_ENABLE
+          PLAY_SONG(bloop_song);
+        #endif
         g_exit_timer = timer_read();
         g_exit_pressed = true;
       } else {
@@ -206,8 +213,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
 }
 
-
-
 #ifdef AUDIO_ENABLE
   float plover_song[][2]     = SONG(PLOVER_SOUND);
   float plover_gb_song[][2]  = SONG(PLOVER_GOODBYE_SOUND);
@@ -217,101 +222,12 @@ uint32_t layer_state_set_user(uint32_t state) {
   return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 }
 
-bool muse_mode = false;
-uint8_t last_muse_note = 0;
-uint16_t muse_counter = 0;
-uint8_t muse_offset = 70;
-uint16_t muse_tempo = 50;
-
-void encoder_update(bool clockwise) {
-  if (muse_mode) {
-    if (IS_LAYER_ON(_RAISE)) {
-      if (clockwise) {
-        muse_offset++;
-      } else {
-        muse_offset--;
-      }
-    } else {
-      if (clockwise) {
-        muse_tempo+=1;
-      } else {
-        muse_tempo-=1;
-      }
-    }
-  } else {
-    if (clockwise) {
-      #ifdef MOUSEKEY_ENABLE
-        register_code(KC_MS_WH_DOWN);
-        unregister_code(KC_MS_WH_DOWN);
-      #else
-        register_code(KC_PGDN);
-        unregister_code(KC_PGDN);
-      #endif
-    } else {
-      #ifdef MOUSEKEY_ENABLE
-        register_code(KC_MS_WH_UP);
-        unregister_code(KC_MS_WH_UP);
-      #else
-        register_code(KC_PGUP);
-        unregister_code(KC_PGUP);
-      #endif
-    }
-  }
-}
-
-void dip_update(uint8_t index, bool active) {
-  switch (index) {
-    case 0:
-      if (active) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(plover_song);
-        #endif
-        layer_on(_ADJUST);
-      } else {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(plover_gb_song);
-        #endif
-        layer_off(_ADJUST);
-      }
-      break;
-    case 1:
-      if (active) {
-        muse_mode = true;
-      } else {
-        muse_mode = false;
-        #ifdef AUDIO_ENABLE
-          stop_all_notes();
-        #endif
-      }
-   }
-}
-
 void matrix_scan_user(void) {
-  #ifdef AUDIO_ENABLE
-    if (muse_mode) {
-      if (muse_counter == 0) {
-        uint8_t muse_note = muse_offset + SCALE[muse_clock_pulse()];
-        if (muse_note != last_muse_note) {
-          stop_note(compute_freq_for_midi_note(last_muse_note));
-          play_note(compute_freq_for_midi_note(muse_note), 0xF);
-          last_muse_note = muse_note;
-        }
-      }
-      muse_counter = (muse_counter + 1) % muse_tempo;
-    } else if ( g_exit_pressed && timer_elapsed(g_exit_timer) > 500 ) {
+    if ( g_exit_pressed && timer_elapsed(g_exit_timer) > 500 ) {
       g_exit_pressed = false;
-      PLAY_SONG(mario_song);
+      #ifdef AUDIO_ENABLE
+        PLAY_SONG(mario_song);
+      #endif
       layer_off(_GAME);
     }
-  #endif
-}
-
-bool music_mask_user(uint16_t keycode) {
-  switch (keycode) {
-    case RAISE:
-    case LOWER:
-      return false;
-    default:
-      return true;
-  }
 }
