@@ -4,7 +4,7 @@
     #define STARTUP_SONG SONG(PLANCK_SOUND)
     // #define STARTUP_SONG SONG(NO_SOUND)
 #endif
-#define AUDIO_CLICKY
+// #define AUDIO_CLICKY
 // #define AUDIO_VOICES
 /*
  * MIDI options
