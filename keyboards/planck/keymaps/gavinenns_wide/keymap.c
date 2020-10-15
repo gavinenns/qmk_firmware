@@ -20,24 +20,21 @@ extern keymap_config_t keymap_config;
 
 enum planck_layers {
   _QWERTY,
-  _LOWER,
-  _RAISE,
-  _MEDIA,
-  _ADJUST,
-  _GAME,
-  _SUPER,
-  _GMRAIS
+  _NUMBER,
+  _SYMBOL,
+  _FUNCTION,
+  _ARROW,
+  _NAVIGATION,
+  _BRACKET,
+  _ADJUST
 };
 
 enum custom_keycodes {
     KC_DTQS = SAFE_RANGE,
-    KC_CMEX,
-    G_START,
-    G_EXIT,
-    GM_RAIS
+    KC_CMEX
 };
 
-#define LK_LY KC_NO
+#define LY_LK KC_NO
 
 #define ES_FN LT(_FUNCTION, KC_ESC)
 #define TB_SY LT(_SYMBOL, KC_TAB)
@@ -46,7 +43,7 @@ enum custom_keycodes {
 #define BS_NV LT(_NAVIGATION, KC_BSPC)
 #define DL_BK LT(_BRACKET, KC_DEL)
 
-#define MO_A RCTRL_T(KC_A)
+#define MO_A RCTL_T(KC_A)
 #define MO_S RALT_T(KC_S)
 #define MO_D RGUI_T(KC_D)
 #define MO_F RSFT_T(KC_F)
@@ -55,14 +52,14 @@ enum custom_keycodes {
 #define MO_J RSFT_T(KC_J)
 #define MO_K RGUI_T(KC_K)
 #define MO_L RALT_T(KC_L)
-#define MO_QT RCTRL_T(KC_QUOT)
+#define MO_QT RCTL_T(KC_QUOT)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_QWERTY] = LAYOUT_planck_grid(
     KC_Q,   KC_W,  KC_E,  KC_R,  KC_T,  KC_VOLD,  KC_VOLU,  KC_Y,  KC_U, KC_I,       KC_O, KC_P,
-    MO_A,   MO_S,  MO_D,  MO_F,  MO_G,  KC_MUTE,  KC_PLAY,  MO_H,  MO_J, MO_K,       MO_L, MO_QT,
-    KC_Z,   KC_X,  KC_C,  KC_V,  KC_B,  KC_PREV,  KC_NEXT,  KC_N,  KC_M, KC_CMEX, KC_DTQS, KC_SCLN,
+    MO_A,   MO_S,  MO_D,  MO_F,  MO_G,  KC_MUTE,  KC_MPLY,  MO_H,  MO_J, MO_K,       MO_L, MO_QT,
+    KC_Z,   KC_X,  KC_C,  KC_V,  KC_B,  KC_MPRV,  KC_MNXT,  KC_N,  KC_M, KC_CMEX, KC_DTQS, KC_SCLN,
     LY_LK, KC_NO, ES_FN, TB_SY, SP_NM,    SP_NM,    EN_AR, EN_AR, BS_NV, DL_BK,     KC_NO, KC_NO
 ),
 
@@ -147,28 +144,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         unregister_code(KC_COMM);
       }
       return false;
-    case G_START:
-      if (record->event.pressed){
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(zelda_song);
-        #endif
-        layer_on(_GAME);
-      }
-      return false;
-    case G_EXIT:
-      if (record->event.pressed){
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(bloop_song);
-        #endif
-        g_exit_timer = timer_read();
-        g_exit_pressed = true;
-      } else {
-        g_exit_pressed = false;
-      }
-      return false;
-    case GM_RAIS:
-      layer_state ^= (1 << _RAISE) | (1 << _GMRAIS);
-      return false;
     default:
       return true;
   }
@@ -181,14 +156,4 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 uint32_t layer_state_set_user(uint32_t state) {
   return update_tri_layer_state(state, _NUMBER, _ARROW, _ADJUST);
-}
-
-void matrix_scan_user(void) {
-    if ( g_exit_pressed && timer_elapsed(g_exit_timer) > 500 ) {
-      g_exit_pressed = false;
-      #ifdef AUDIO_ENABLE
-        PLAY_SONG(mario_song);
-      #endif
-      layer_off(_GAME);
-    }
 }
