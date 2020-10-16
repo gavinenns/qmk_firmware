@@ -6,14 +6,14 @@ inspiration:
 https://www.reddit.com/r/olkb/comments/jaqs91/a_wip_layout_configuration_i_call_it_the/
 
 wishlist:
-- home row mods
-- three-key thumb clusters
-- no more pinky twisting
-  - cross-hand layers
+x home row mods
+x three-key thumb clusters
+x no more pinky twisting
+  x cross-hand layers
 - game mode?
-- numbers layer
-- symbols layer
-- navigation layer
+x numbers layer
+x symbols layer
+x navigation layer
 - mouse layer?
 - number row AND numpad
 - hold for momentary, double tap to toggle layer (esp numbers and navigation)
