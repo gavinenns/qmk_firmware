@@ -86,6 +86,7 @@ enum custom_keycodes {
 #define CMD_X LGUI(KC_X)
 #define CMD_C LGUI(KC_C)
 #define CMD_V LGUI(KC_V)
+#define CMD_A LGUI(KC_A)
 #define CMD_TIL LGUI(KC_TILD)
 #define CMD_TAB LGUI(KC_TAB)
 
@@ -127,8 +128,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [_NAVIGATION] = LAYOUT_planck_grid(
-  CMD_TIL, KC_PGUP,   KC_UP,  KC_PGDN, KC_HOME, ___x___, ___x___, ___x___, ___x___,  ___x___, ___x___, ___x___,
-  CMD_TAB, KC_LEFT, KC_DOWN, KC_RIGHT,  KC_END, ___x___, ___x___,   MOD_5,   MOD_4,    MOD_3,   MOD_2,   MOD_1,
+  ___x___, KC_PGUP,   KC_UP,  KC_PGDN, KC_HOME, ___x___, ___x___, ___x___, ___x___,  ___x___, ___x___, ___x___,
+    CMD_A, KC_LEFT, KC_DOWN, KC_RIGHT,  KC_END, ___x___, ___x___,   MOD_5,   MOD_4,    MOD_3,   MOD_2,   MOD_1,
     CMD_Z,   CMD_X,   CMD_C,    CMD_V, ___x___, ___x___, ___x___, ___x___, ___x___,  ___x___, ___x___, ___x___,
   _______, _______,  KC_ESC,   KC_TAB, _______, _______, _______, _______, KC_BSPC,   KC_DEL, _______, _______
 ),
@@ -151,7 +152,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    KC_ESC,    KC_Q,    KC_W,     KC_E,    KC_R,    KC_3,    KC_6,    KC_7,    KC_8,     KC_9,    KC_0, ___x___,
    KC_TAB,    KC_A,    KC_S,     KC_D,    KC_F,    KC_2,    KC_5, ___x___, ___x___,  ___x___,   KC_UP, ___x___,
   KC_LSFT,    KC_Z,    KC_X,     KC_C,    KC_V,    KC_1,    KC_4, ___x___, ___x___,  KC_LEFT, KC_DOWN, KC_RIGHT,
-  KC_LCTL, KC_LCTL, KC_LALT,  KC_LGUI,  KC_SPC,  KC_SPC,  KC_ENT,  KC_ENT, KC_BSPC,   KC_DEL, _______, _______
+  KC_LCTL, _______, KC_LALT,  KC_LGUI,  KC_SPC,  KC_SPC,  KC_ENT,  KC_ENT, KC_BSPC,   KC_DEL, _______, _______
 ),
 
 [_LAYERLOCK] = LAYOUT_planck_grid(
