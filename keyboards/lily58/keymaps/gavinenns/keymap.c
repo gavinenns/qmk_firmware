@@ -196,7 +196,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (keycode == KC_MOVI) {
       unregister_mods(MOD_BIT(KC_LALT));
       if (timer_elapsed(movi_tap_timer) < TAPPING_TERM && movi_inverting) {
-        layer_on(_MOVIE);
+        layer_invert(_MOVIE);
       }
       return false;
     }
