@@ -72,9 +72,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------.                    ,-----------------------------------------.
  * |      |      |      |      |      |      |                    |   /  |  7   |  8   |  9   |  0   |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |      | Home |  Up  | End  | PgUp |      |                    |   *  |  4   |  5   |  6   |  ^   | PENT |
+ * |      |      | Home |  Up  | End  | PgUp |                    |   *  |  4   |  5   |  6   |  ^   | PENT |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |      | Left | Down | Rght | PgDn |      |-------.    ,-------|   -  |  1   |  2   |  3   |  (   |  )   |
+ * |      |      | Left | Down | Rght | PgDn |-------.    ,-------|   -  |  1   |  2   |  3   |  (   |  )   |
  * |------+------+------+------+------+------| Prev  |    | Next  |------+------+------+------+------+------|
  * |      |      |      |      |      |      |-------|    |-------|   +  |  0   |  0   |  .   |  =   |      |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
@@ -85,8 +85,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_RAISE] = LAYOUT( \
   _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_PSLS,   KC_P7,   KC_P8,   KC_P9,   KC_P0, _______, \
-  _______, KC_HOME,   KC_UP,  KC_END, KC_PGUP, XXXXXXX,                   KC_PAST,   KC_P4,   KC_P5,   KC_P6, KC_CIRC, KC_PENT, \
-  _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, XXXXXXX,                   KC_PMNS,   KC_P1,   KC_P2,   KC_P3, KC_LPRN, KC_RPRN, \
+  _______, XXXXXXX, KC_HOME,   KC_UP,  KC_END, KC_PGUP,                   KC_PAST,   KC_P4,   KC_P5,   KC_P6, KC_CIRC, KC_PENT, \
+  _______, XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN,                   KC_PMNS,   KC_P1,   KC_P2,   KC_P3, KC_LPRN, KC_RPRN, \
   _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_MPRV, KC_MNXT, KC_PPLS,   KC_P0,   KC_P0, KC_PDOT, KC_PEQL, _______, \
                              _______, _______, _______, _______, _______, _______, _______, KC_MOVI \
 ),
@@ -190,13 +190,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (keycode == KC_MOVI) {
       movi_tap_timer = timer_read();
       movi_inverting = true;
-      register_mods(MOD_BIT(KC_RALT));
+      register_mods(MOD_BIT(KC_RGUI));
       return false;
     }
     // set_timelog();
   } else {
     if (keycode == KC_MOVI) {
-      unregister_mods(MOD_BIT(KC_LALT));
+      unregister_mods(MOD_BIT(KC_LGUI));
       if (timer_elapsed(movi_tap_timer) < TAPPING_TERM && movi_inverting) {
         layer_invert(_MOVIE);
       }
