@@ -1,4 +1,5 @@
 #include QMK_KEYBOARD_H
+#include <stdio.h>
 
 enum layer_number {
   _QWERTY = 0,
@@ -124,7 +125,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   XXXXXXX,   RESET,   DEBUG, EEP_RST, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
                              _______, _______, _______, _______, _______,  _______, _______, _______ \
   )
 };
@@ -163,11 +164,46 @@ static void render_jabu(void) {
     oled_write_raw_P(raw_jabu, sizeof(raw_jabu));
 }
 
+#define L_BASE 0
+#define L_MIRROR (1 << 1)
+#define L_LOWER (1 << 2)
+#define L_RAISE (1 << 3)
+#define L_ADJUST (1 << 4)
+#define L_ADJUST_TRI (L_ADJUST | L_RAISE | L_LOWER)
+
+char layer_state_str[24];
+
+const char *read_layer_state_user(void) {
+  switch (layer_state)
+  {
+  case L_BASE:
+    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Default");
+    break;
+  case L_MIRROR:
+    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Mirror");
+    break;
+  case L_RAISE:
+    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Raise");
+    break;
+  case L_LOWER:
+    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Lower");
+    break;
+  case L_ADJUST:
+  case L_ADJUST_TRI:
+    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Adjust");
+    break;
+  default:
+    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Undef-%ld", layer_state);
+  }
+
+  return layer_state_str;
+}
+
 
 void oled_task_user(void) {
   if (is_keyboard_master()) {
     // If you want to change the display of OLED, you need to change here
-    oled_write_ln(read_layer_state(), false);
+    oled_write_ln(read_layer_state_user(), false);
     oled_write_ln(read_keylog(), false);
     oled_write_ln(read_keylogs(), false);
     //oled_write_ln(read_mode_icon(keymap_config.swap_lalt_lgui), false);
