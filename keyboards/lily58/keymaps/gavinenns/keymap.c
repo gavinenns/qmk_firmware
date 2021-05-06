@@ -14,8 +14,8 @@ enum custom_keycodes {
   KC_RAIS
 };
 
-#define KC_MVLD LT(_MQWERTY, KC_VOLD)
-#define KC_MVLU LT(_MQWERTY, KC_VOLU)
+#define KC_MVLD LT(_MQWERTY, KC__VOLDOWN)
+#define KC_MVLU LT(_MQWERTY, KC__VOLUP)
 #define KC_MMPR LT(_MQWERTY, KC_MPRV)
 #define KC_MMNX LT(_MQWERTY, KC_MNXT)
 #define KC_MMUT LT(_MQWERTY, KC_MUTE)
