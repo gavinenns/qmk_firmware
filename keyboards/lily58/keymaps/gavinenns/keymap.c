@@ -238,6 +238,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (lower_counter != 2) {
           layer_off(_LOWER);
         }
+        layer_off(_RAISE);
       }
       return false;
     case KC_RAIS:
@@ -249,20 +250,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (raise_counter != 2) {
           layer_off(_RAISE);
         }
+        layer_off(_LOWER);
       }
       return false;
-    default:
-      return true;
   }
-
   return true;
 }
 
 void matrix_scan_user(void) {
   if (timer_elapsed(lower_timer) > TAPPING_TERM) {
     lower_counter = 0;
+    lower_timer = 0;
   }
   if (timer_elapsed(raise_timer) > TAPPING_TERM) {
     raise_counter = 0;
+    raise_timer = 0;
   }
 }
