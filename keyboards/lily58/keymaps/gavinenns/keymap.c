@@ -144,13 +144,11 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return OLED_ROTATION_270;
   }
 }
-
+#endif // OLED_DRIVER_ENABLE
 // When you add source files to SRC in rules.mk, you can use functions.
-const char *read_layer_state(void);
-const char *read_logo(void);
-void set_keylog(uint16_t keycode, keyrecord_t *record);
-const char *read_keylog(void);
-const char *read_keylogs(void);
+// void set_keylog(uint16_t keycode, keyrecord_t *record);
+// const char *read_keylog(void);
+// const char *read_keylogs(void);
 
 // const char *read_mode_icon(bool swap);
 // const char *read_host_led_state(void);
@@ -172,6 +170,14 @@ static void render_jabu(void) {
 
 uint16_t anim_timer = 0;
 uint8_t current_frame = 0;
+
+#define NUM_BUCKETS 20
+#define BUCKET_TIMER 200
+
+static int bucket_index = 0;
+static int buckets[NUM_BUCKETS] = {};
+static uint16_t bucket_timer = 0;
+
 
 static void render_anim(void) {
   static const char PROGMEM frames[ANIM_FRAMES][ANIM_SIZE] = {
@@ -210,7 +216,15 @@ static void render_anim(void) {
     }
   };
 
-  if (timer_elapsed(anim_timer) > ANIM_FRAME_DURATION) {
+  int sum = 0;
+  for (int i = 0; i < NUM_BUCKETS; i++) sum += buckets[i];
+
+  if (sum == 0) {
+    anim_timer = 0;
+    return;
+  }
+
+  if (timer_elapsed(anim_timer) > ANIM_FRAME_DURATION*10/sum) {
     anim_timer = timer_read();
     current_frame = (current_frame + 1) % ANIM_FRAMES;
 
@@ -232,34 +246,37 @@ const char *read_layer_state_user(void) {
   switch (layer_state)
   {
   case L_BASE:
-    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Default");
+    snprintf(layer_state_str, sizeof(layer_state_str), "Base ");
     break;
   case L_MIRROR:
-    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Mirror");
+    snprintf(layer_state_str, sizeof(layer_state_str), "Mirr ");
     break;
   case L_RAISE:
-    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Raise");
+    snprintf(layer_state_str, sizeof(layer_state_str), "Raise");
     break;
   case L_LOWER:
-    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Lower");
+    snprintf(layer_state_str, sizeof(layer_state_str), "Lower");
     break;
   case L_ADJUST:
   case L_ADJUST_TRI:
-    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Adjust");
+    snprintf(layer_state_str, sizeof(layer_state_str), "Adj  ");
     break;
   default:
-    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Undef-%ld", layer_state);
+    snprintf(layer_state_str, sizeof(layer_state_str), "Undef");
   }
 
   return layer_state_str;
 }
 
+//SSD1306 OLED update loop, make sure to enable OLED_DRIVER_ENABLE=yes in rules.mk
+#ifdef OLED_DRIVER_ENABLE
 
 void oled_task_user(void) {
   if (is_keyboard_master()) {
-    render_anim();
     // If you want to change the display of OLED, you need to change here
-    // oled_write_ln(read_layer_state_user(), false);
+    render_anim();
+    oled_set_cursor(0, 15);
+    oled_write(read_layer_state_user(), false);
     // oled_write_ln(read_keylog(), false);
     // oled_write_ln(read_keylogs(), false);
     //oled_write_ln(read_mode_icon(keymap_config.swap_lalt_lgui), false);
@@ -272,8 +289,10 @@ void oled_task_user(void) {
 #endif // OLED_DRIVER_ENABLE
 
 static int lower_counter = 0;
+static bool lower_pressed = false;
 static uint16_t lower_timer;
 static int raise_counter = 0;
+static bool raise_pressed = false;
 static uint16_t raise_timer;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -284,17 +303,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 //   // set_timelog();
 //   }
 
+  if (record->event.pressed && keycode > 3 && keycode < 40) {
+    buckets[bucket_index]++;
+  }
+
   switch (keycode) {
     case KC_LOWR:
       if (record->event.pressed) {
         lower_timer = timer_read();
         lower_counter += 1;
         layer_on(_LOWER);
+        lower_pressed = true;
       } else {
         if (lower_counter != 2) {
           layer_off(_LOWER);
         }
-        layer_off(_RAISE);
+        if (!raise_pressed) layer_off(_RAISE);
+        lower_pressed = false;
       }
       return false;
     case KC_RAIS:
@@ -302,11 +327,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         raise_timer = timer_read();
         raise_counter += 1;
         layer_on(_RAISE);
+        raise_pressed = true;
       } else {
         if (raise_counter != 2) {
           layer_off(_RAISE);
         }
-        layer_off(_LOWER);
+        if (!lower_pressed) layer_off(_LOWER);
+        raise_pressed = false;
       }
       return false;
   }
@@ -321,5 +348,11 @@ void matrix_scan_user(void) {
   if (timer_elapsed(raise_timer) > TAPPING_TERM) {
     raise_counter = 0;
     raise_timer = 0;
+  }
+  if (timer_elapsed(bucket_timer) > BUCKET_TIMER) {
+    bucket_index++;
+    bucket_index = bucket_index % NUM_BUCKETS;
+    bucket_timer = timer_read();
+    buckets[bucket_index] = 0;
   }
 }
