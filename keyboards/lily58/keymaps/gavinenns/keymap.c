@@ -271,10 +271,17 @@ const char *read_layer_state_user(void) {
 //SSD1306 OLED update loop, make sure to enable OLED_DRIVER_ENABLE=yes in rules.mk
 #ifdef OLED_DRIVER_ENABLE
 
+char char_count_string[24];
+
 void oled_task_user(void) {
   if (is_keyboard_master()) {
     // If you want to change the display of OLED, you need to change here
     render_anim();
+    oled_set_cursor(0, 13);
+    int sum = 0;
+    for (int i = 0; i < NUM_BUCKETS; i++) sum += buckets[i];
+    sprintf(char_count_string, "%d", sum);
+    oled_write_ln(char_count_string, false);
     oled_set_cursor(0, 15);
     oled_write(read_layer_state_user(), false);
     // oled_write_ln(read_keylog(), false);
