@@ -29,4 +29,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TAPPING_FORCE_HOLD
 #define TAPPING_TERM 200
 
-#define DEBOUNCING_DELAY 7
+#undef DEBOUNCE
+#define DEBOUNCE 40
